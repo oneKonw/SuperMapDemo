@@ -11,6 +11,8 @@ public interface MainContract {
     interface View extends BaseView<Presenter>{
         void showMap();
         void showSetLicense();
+        void showMapsListview();
+        void showRefreshMapsListview();
     }
     interface Presenter extends BasePresenter{
         void pathOfLicense();
@@ -21,6 +23,9 @@ public interface MainContract {
         void savePath(String path);
         //读取License路径
         String getPath();
+        //显示maplistview
+        void setMapListview();
+        void refreshListview();
     }
 }
 

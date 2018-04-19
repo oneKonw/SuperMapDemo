@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        com.supermap.data.Environment.setLicensePath("/sdcard/SuperMap/License");
-//        com.supermap.data.Environment.initialization(this);
+        com.supermap.data.Environment.setLicensePath("/sdcard/SuperMap/License");
+        com.supermap.data.Environment.initialization(this);
         setContentView(R.layout.activity_main);
         //设置toolbar
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);

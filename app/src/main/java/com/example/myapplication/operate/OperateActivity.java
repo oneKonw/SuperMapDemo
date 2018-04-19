@@ -18,6 +18,7 @@ public class OperateActivity extends AppCompatActivity {
         String license = getIntent().getStringExtra("License");
 //        String license ="/sdcard/SuperMap/License";
         String pathOfDataset = getIntent().getStringExtra("Dataset");
+        String nameOfMap = getIntent().getStringExtra("NameOfMap");
         com.supermap.data.Environment.setLicensePath(license);
         com.supermap.data.Environment.initialization(this);
 
@@ -37,7 +38,7 @@ public class OperateActivity extends AppCompatActivity {
 
 
         if (operateFragment == null){
-            operateFragment = OperateFragment.newInstance(license,pathOfDataset);
+            operateFragment = OperateFragment.newInstance(license,pathOfDataset,nameOfMap);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),operateFragment,R.id.contentFrame);
         }
         mOperatePresneter = new OperatePresenter(operateFragment);

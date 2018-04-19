@@ -51,4 +51,14 @@ public class MainPresent implements MainContract.Presenter {
         String path = mLocalDataSource.getPathOfLicense();
         return path;
     }
+
+    @Override
+    public void setMapListview() {
+        mMainView.showMapsListview();
+    }
+
+    @Override
+    public void refreshListview() {
+        mMainView.showRefreshMapsListview();
+    }
 }

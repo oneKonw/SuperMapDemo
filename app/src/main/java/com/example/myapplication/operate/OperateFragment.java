@@ -33,20 +33,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by hyt on 2018/4/10.
  */
 
-public class OperateFragment extends Fragment implements OperateContract.View {
+public class OperateFragment extends Fragment implements OperateContract.View ,View.OnClickListener{
     private OperateContract.Presenter mPresenter;
 
-    private String license,dataset;
+    private String license,dataset,nameOfMap;
     MapView mapView;
     LayerListView layerListView;
     MapControl mapControl;
+    Workspace workspace;
+    WorkspaceConnectionInfo workspaceConnectionInfo;
 
     //静态生成
-    public static OperateFragment newInstance(String license,String dataset){
+    public static OperateFragment newInstance(String license,String dataset,String NameOfMap){
         OperateFragment operateFragment = new OperateFragment();
         Bundle bundle = new Bundle();
         bundle.putString("License",license);
         bundle.putString("Dataset",dataset);
+        bundle.putString("NameOfMap",NameOfMap);
         operateFragment.setArguments(bundle);
         return operateFragment;
     }
@@ -94,16 +97,21 @@ public class OperateFragment extends Fragment implements OperateContract.View {
         //endregion
         mapView = (MapView) root.findViewById(R.id.map_view);
         layerListView = (LayerListView)root.findViewById(R.id.layerView);
+        final ZoomControls zoomControls = (ZoomControls)root.findViewById(R.id.zoomControls);
+        //按钮可见
+        zoomControls.setIsZoomOutEnabled(true);
+        zoomControls.setIsZoomInEnabled(true);
 
-        WorkspaceConnectionInfo workspaceConnectionInfo = new WorkspaceConnectionInfo();
+        workspaceConnectionInfo = new WorkspaceConnectionInfo();
         workspaceConnectionInfo.setServer(dataset);
         workspaceConnectionInfo.setType(WorkspaceType.SMWU);
-        Workspace workspace = new Workspace();
+        workspace = new Workspace();
         if (workspace.open(workspaceConnectionInfo)){
              workspaceConnectionInfo.dispose();
              mapControl = mapView.getMapControl();
              mapControl.getMap().setWorkspace(workspace);
-             mapControl.getMap().open("世界地图");
+             //打开工作空间中的“世界地图”
+             mapControl.getMap().open(nameOfMap);
              layerListView.loadMap(mapControl.getMap());
               //region 图例列表
 //            legendView.setRowHeight(36);
@@ -135,6 +143,23 @@ public class OperateFragment extends Fragment implements OperateContract.View {
             //endregion
             mapControl.getMap().refresh();
         }
+        //缩小两倍按钮
+
+        zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapControl.getMap().zoom(0.5);
+                mapControl.getMap().refresh();
+            }
+        });
+        //放大两倍按钮
+        zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapControl.getMap().zoom(2);
+                mapControl.getMap().refresh();
+            }
+        });
     }
 
     private void initData(){
@@ -142,6 +167,26 @@ public class OperateFragment extends Fragment implements OperateContract.View {
         if (getArguments()!= null){
             license = getArguments().getString("License");
             dataset = getArguments().getString("Dataset");
+            nameOfMap = getArguments().getString("NameOfMap");
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //关闭并释放工作空间和地图控件
+        //关闭顺序必须是map，mapcontrol，workspace
+        mapControl.getMap().close();
+        mapControl.dispose();
+        mapControl = null;
+        workspace.close();
+        workspaceConnectionInfo.dispose();
+        workspace.dispose();
     }
 }
