@@ -5,39 +5,44 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.example.myapplication.first.MainActivity">
-
     <RelativeLayout
-        android:gravity="left"
+        android:id="@+id/rv_mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:id="@+id/rv_mapview"
+        android:layout_height="300dp">
+        <com.supermap.mapping.MapView
+            android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="300dp">
-            <com.supermap.mapping.MapView
-                android:id="@+id/map_view"
-                android:layout_width="match_parent"
-                android:layout_height="300dp">
-            </com.supermap.mapping.MapView>
-            <ZoomControls
-                android:id="@+id/zoomControls"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_above="@+id/map_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </ZoomControls>
-        </RelativeLayout>
-
-
-        <com.supermap.mapping.view.LayerListView
-            android:id="@+id/layerView"
-            android:layout_width="match_parent"
-            android:layout_height="720px"
-            android:layout_below="@+id/rv_mapview">
-        </com.supermap.mapping.view.LayerListView>
-
-
+        </com.supermap.mapping.MapView>
+        <ZoomControls
+            android:id="@+id/zoomControls"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/map_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ZoomControls>
     </RelativeLayout>
+
+    <com.supermap.mapping.view.LayerListView
+        android:id="@+id/layerView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/rv_mapview">
+    </com.supermap.mapping.view.LayerListView>
+    <LinearLayout
+        android:layout_below="@id/layerView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_showall"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:text="整幅显示"
+            android:gravity="center"
+            android:background="#2222"/>
+
+    </LinearLayout>
 </RelativeLayout>

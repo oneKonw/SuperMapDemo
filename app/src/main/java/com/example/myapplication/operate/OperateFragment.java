@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.ZoomControls;
 
 import com.example.myapplication.R;
@@ -27,6 +28,8 @@ import com.supermap.mapping.MapControl;
 import com.supermap.mapping.MapView;
 import com.supermap.mapping.view.LayerListView;
 
+import org.w3c.dom.Text;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -42,6 +45,7 @@ public class OperateFragment extends Fragment implements OperateContract.View ,V
     MapControl mapControl;
     Workspace workspace;
     WorkspaceConnectionInfo workspaceConnectionInfo;
+    private TextView tv_showall;
 
     //静态生成
     public static OperateFragment newInstance(String license,String dataset,String NameOfMap){
@@ -97,7 +101,12 @@ public class OperateFragment extends Fragment implements OperateContract.View ,V
         //endregion
         mapView = (MapView) root.findViewById(R.id.map_view);
         layerListView = (LayerListView)root.findViewById(R.id.layerView);
+        tv_showall = (TextView)root.findViewById(R.id.tv_showall);
+        tv_showall.setOnClickListener(this);
+
         final ZoomControls zoomControls = (ZoomControls)root.findViewById(R.id.zoomControls);
+
+
         //按钮可见
         zoomControls.setIsZoomOutEnabled(true);
         zoomControls.setIsZoomInEnabled(true);
@@ -144,7 +153,6 @@ public class OperateFragment extends Fragment implements OperateContract.View ,V
             mapControl.getMap().refresh();
         }
         //缩小两倍按钮
-
         zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +182,10 @@ public class OperateFragment extends Fragment implements OperateContract.View ,V
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.tv_showall:
+                //全副显示
+                mapControl.getMap().viewEntire();
+                break;
         }
     }
 
